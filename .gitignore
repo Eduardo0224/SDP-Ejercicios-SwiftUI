@@ -1,0 +1,29 @@
+# Xcode
+.DS_Store
+*.pbxuser
+*.mode1v3
+*.perspectivev3
+*.xcworkspace
+xcuserdata/
+DerivedData/
+build/
+
+# Swift Package Manager
+.swiftpm/
+Packages/
+Package.pins
+Package.resolved
+
+# CocoaPods
+# Pods/  # Uncomment if you choose not to commit your Pods directory
+# Podfile.lock # Uncomment if you choose not to commit your Podfile.lock
+
+# Carthage
+# Carthage/Build/ # Uncomment if you choose not to commit Carthage build artifacts
+
+# Other
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.xcscmblueprint
+*.xccheckout
