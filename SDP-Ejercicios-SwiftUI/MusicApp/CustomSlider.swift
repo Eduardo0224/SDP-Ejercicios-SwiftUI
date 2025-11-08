@@ -21,7 +21,13 @@ struct CustomSlider: View {
 
     var hasThumb: Bool = true
     var backgroundColor: Color = .gray.opacity(0.3)
-    var foregroundColor: Color?
+    var foregroundStyle: AnyShapeStyle = .init(
+        LinearGradient(
+            colors: [.leading, .trailing],
+            startPoint: .leading,
+            endPoint: .trailing
+        )
+    )
 
     var body: some View {
         GeometryReader { geometry in
@@ -35,33 +41,15 @@ struct CustomSlider: View {
                 .fill(backgroundColor)
                 .frame(height: 10)
 
-                if let foregroundColor {
-                    RoundedRectangle(
-                        cornerRadius: height / 2,
-                        style: .circular
-                    )
-                    .fill(foregroundColor)
-                    .frame(
-                        width: CGFloat(currentValue) * width,
-                        height: 10
-                    )
-                } else {
-                    RoundedRectangle(
-                        cornerRadius: height / 2,
-                        style: .circular
-                    )
-                    .fill(
-                        LinearGradient(
-                            colors: [.leading, .trailing],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .frame(
-                        width: CGFloat(currentValue) * width,
-                        height: 10
-                    )
-                }
+                RoundedRectangle(
+                    cornerRadius: height / 2,
+                    style: .circular
+                )
+                .fill(foregroundStyle)
+                .frame(
+                    width: CGFloat(currentValue) * width,
+                    height: 10
+                )
 
                 if hasThumb {
                     Circle()
@@ -86,5 +74,6 @@ struct CustomSlider: View {
 #Preview(
     traits: .fixedLayout(width: 500, height: 50)
 ) {
-    CustomSlider(currentValue: .constant(0.5))
+    @Previewable @State var currentValue: Double = 0.5
+    CustomSlider(currentValue: $currentValue)
 }
