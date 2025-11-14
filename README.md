@@ -6,6 +6,25 @@ Colección de ejercicios desarrollados como parte del programa **Swift Developer
 
 Este proyecto reúne distintos retos y ejemplos prácticos creados durante el proceso formativo del **Swift Developer Program**. Su propósito es reforzar conocimientos en SwiftUI, manejo de estado, navegación, componentes reutilizables, patrones de diseño y mejores prácticas en el ecosistema Apple.
 
+## Resultados
+
+<table align="center" width="500px">
+    <tr>
+        <th>Resultado 1</th>
+        <th>Resultado 2</th>
+    </tr>
+    <tr>
+        <td align="center">
+            <video source src="https://github.com/user-attachments/assets/e9af6e60-d6a3-405b-a9a4-0b28761e7349">
+            </video>
+        </td>
+        <td align="center">
+            <video source src="https://github.com/user-attachments/assets/5a88a1c3-7fe5-434f-b2ba-223a8d9ef0d9">
+            </video>
+        </td>
+    </tr>
+</table>
+
 ## Requisitos
 
 - macOS 13 o superior  
