@@ -11,9 +11,7 @@ import SwiftUI
 struct SDP_Ejercicios_SwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                WeatherApp()
-            }
+            MainMenuView()
         }
     }
 }
