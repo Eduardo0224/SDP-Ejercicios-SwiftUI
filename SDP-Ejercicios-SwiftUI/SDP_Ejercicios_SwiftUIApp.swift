@@ -12,7 +12,7 @@ struct SDP_Ejercicios_SwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                MusicApp()
+                WeatherApp()
             }
         }
     }
