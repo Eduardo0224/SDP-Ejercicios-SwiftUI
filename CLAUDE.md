@@ -39,7 +39,16 @@ This project is organized into independent exercise modules, each in its own sub
 ```
 SDP-Ejercicios-SwiftUI/
 ├── SDP_Ejercicios_SwiftUIApp.swift  # App entry point
-├── MainMenuView.swift                # Main navigation menu
+├── PlaceholderView.swift             # Generic placeholder for upcoming features
+├── Menu/                             # Main navigation menu
+│   ├── Data/                        # Menu data models
+│   │   ├── MenuItem.swift           # Menu item data structure
+│   │   └── MenuData.swift           # Menu items definitions (exercises & tasks)
+│   └── Views/                       # Menu UI components
+│       ├── MainMenuView.swift       # Main menu container
+│       └── Components/
+│           ├── MenuSection.swift    # Menu section component
+│           └── MenuItemRow.swift    # Menu item row component
 ├── MusicApp/                         # Exercise 1: Music player UI
 │   ├── MusicApp.swift               # Main view
 │   ├── CirclesView.swift            # Component
@@ -65,6 +74,21 @@ SDP-Ejercicios-SwiftUI/
 ### Main Navigation
 
 The app uses `MainMenuView.swift` as the entry point, providing a sectioned list to navigate between Exercises and Tasks.
+
+#### Menu Navigation System
+
+The menu system is data-driven and extensible:
+
+- **MenuItem**: Data structure defining menu items with `id`, `title`, `subtitle`, `icon`, and `destination`
+- **MenuDestination**: Enum-based navigation using SwiftUI's `NavigationStack` and `.navigationDestination(for:)`
+- **MenuData.swift**: Centralized definitions for `exercises` and `tasks` arrays
+- **MenuSection**: Component for rendering sections (Exercises, Tasks)
+- **MenuItemRow**: Component for individual menu items
+
+To add a new exercise or task:
+1. Add a new case to `MenuDestination` enum in `MenuItem.swift`
+2. Create a new `MenuItem` in `MenuData.swift` (in `exercises` or `tasks` array)
+3. Add the navigation destination case in `MainMenuView.swift`'s `.navigationDestination(for:)` modifier
 
 ### Exercise Modules
 
