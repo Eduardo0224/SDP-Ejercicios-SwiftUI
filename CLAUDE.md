@@ -39,7 +39,6 @@ This project is organized into independent exercise modules, each in its own sub
 ```
 SDP-Ejercicios-SwiftUI/
 ├── SDP_Ejercicios_SwiftUIApp.swift  # App entry point
-├── PlaceholderView.swift             # Generic placeholder for upcoming features
 ├── Menu/                             # Main navigation menu
 │   ├── Data/                        # Menu data models
 │   │   ├── MenuItem.swift           # Menu item data structure
@@ -55,20 +54,33 @@ SDP-Ejercicios-SwiftUI/
 │   ├── GridView.swift               # Component
 │   ├── CustomSlider.swift           # Reusable slider component
 │   └── Font+Extensions.swift        # Typography extensions
-└── WeatherApp/                       # Exercise 2: Weather app UI
+├── WeatherApp/                       # Exercise 2: Weather app UI
+│   ├── Models/                       # Data models
+│   │   ├── WeatherDate.swift
+│   │   └── WeatherDateOption.swift
+│   ├── Repository/                   # Data layer
+│   │   ├── WeatherRespositoryProtocol.swift
+│   │   └── WeatherRespository.swift
+│   ├── ViewModel/                    # Business logic
+│   │   └── WeatherViewModel.swift
+│   └── Views/                        # UI components
+│       ├── WeatherApp.swift
+│       ├── WeatherByHourRow.swift
+│       ├── WeatherByWeekdayRow.swift
+│       └── WeatherHeaderView.swift
+└── HeroesApp/                        # Task 1: Heroes master-detail UI
     ├── Models/                       # Data models
-    │   ├── WeatherDate.swift
-    │   └── WeatherDateOption.swift
+    │   ├── Poderes.swift
+    │   └── SuperHeroesData.swift
     ├── Repository/                   # Data layer
-    │   ├── WeatherRespositoryProtocol.swift
-    │   └── WeatherRespository.swift
+    │   ├── HeroesRepositoryProtocol.swift
+    │   └── HeroesRepository.swift
     ├── ViewModel/                    # Business logic
-    │   └── WeatherViewModel.swift
+    │   └── HeroesViewModel.swift
     └── Views/                        # UI components
-        ├── WeatherApp.swift
-        ├── WeatherByHourRow.swift
-        ├── WeatherByWeekdayRow.swift
-        └── WeatherHeaderView.swift
+        ├── HeroesApp.swift
+        ├── HeroCardView.swift
+        └── HeroDetailView.swift
 ```
 
 ### Main Navigation
@@ -101,6 +113,17 @@ To add a new exercise or task:
 - **Purpose**: Weather app UI with MVVM architecture
 - **Architecture**: Clean Architecture with Model-Repository-ViewModel-View layers
 - **Key Features**: Protocol-based repository, date-based data handling, segmented picker
+
+#### HeroesApp (Task 1)
+- **Purpose**: Master-detail heroes catalog with search and filtering
+- **Architecture**: Clean Architecture with Model-Repository-ViewModel-View layers
+- **Key Features**:
+  - Grid layout with LazyVGrid
+  - Master-detail navigation pattern
+  - Search functionality with `Searchable` protocol
+  - Alphabetical sorting toggle
+  - Custom font integration (Marvel fonts)
+  - String diacritics normalization for search
 
 ## Architecture Pattern
 
@@ -569,6 +592,84 @@ private func handleError(_ error: Error) {
         errorMessage = customError.userMessage
     } else {
         errorMessage = error.localizedDescription
+    }
+}
+```
+
+## Common Patterns
+
+### Search and Filter Pattern
+
+For searchable lists, use a `Searchable` protocol and computed properties in the ViewModel:
+
+```swift
+// Model with Searchable protocol
+protocol Searchable {
+    var searchableText: String { get }
+}
+
+struct Item: Identifiable, Searchable {
+    let id = UUID()
+    let name: String
+    let description: String
+
+    var searchableText: String {
+        [name, description]
+            .filter { !$0.isEmpty }
+            .joined(separator: " ")
+            .foldingDiacritics
+    }
+}
+
+// ViewModel with filtering and sorting
+final class ItemsViewModel: ObservableObject {
+    @Published var items: [Item] = []
+    @Published var search = ""
+    @Published var isOrdered = false
+
+    var itemsFiltered: [Item] {
+        let query = search.foldingDiacritics
+        guard !query.isEmpty else { return items }
+        return items.filter { $0.searchableText.contains(query) }
+    }
+
+    var itemsOrdered: [Item] {
+        isOrdered ? itemsFiltered.sorted { $0.name < $1.name } : itemsFiltered
+    }
+}
+```
+
+### Custom Font Configuration
+
+Configure custom fonts in the view's init using UIKit appearance:
+
+```swift
+struct CustomView: View {
+    init() {
+        guard let customFont = UIFont(name: "CustomFont-Bold", size: 45) else { return }
+
+        let appearance = UINavigationBarAppearance()
+        appearance.largeTitleTextAttributes = [.font: customFont]
+
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+    }
+
+    var body: some View {
+        // View implementation
+    }
+}
+```
+
+### String Extension for Search
+
+Use `foldingDiacritics` for accent-insensitive search:
+
+```swift
+extension String {
+    var foldingDiacritics: String {
+        self.folding(options: .diacriticInsensitive, locale: .current).lowercased()
     }
 }
 ```

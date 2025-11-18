@@ -13,5 +13,5 @@ let exercises = [
 ]
 
 let tasks = [
-    MenuItem(id: "heroes", title: "Heroes App", subtitle: "Task - Coming Soon", icon: "person.3.fill", destination: .heroes)
+    MenuItem(id: "heroes", title: "Heroes App", subtitle: "Task 1", icon: "person.3.fill", destination: .heroes)
 ]

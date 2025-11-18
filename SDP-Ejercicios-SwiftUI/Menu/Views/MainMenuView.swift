@@ -40,7 +40,7 @@ struct MainMenuView: View {
                 case .weather:
                     WeatherApp()
                 case .heroes:
-                    PlaceholderView(title: "Heroes App", subtitle: "Coming Soon")
+                    HeroesApp()
                 }
             }
         }
